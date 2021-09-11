@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace DIO.Series
 {
@@ -26,7 +26,7 @@ namespace DIO.Series
                         ExcluirSerie();
                         break;
                     case "5":
-                        //VisualizarSerie();
+                        VisualizarSerie();
                         break;
                     case "C":
                         Console.Clear();
@@ -37,6 +37,17 @@ namespace DIO.Series
 
                 option = getOpcaoUsuario();
             }
+        }
+
+        private static void VisualizarSerie()
+        {
+            Console.WriteLine("Visualizar série:");
+            Console.Write("Digite o id da série: ");
+            int idSerie = int.Parse(Console.ReadLine());
+
+            var serie = repo.RetornaPorID(idSerie);
+
+            Console.WriteLine(serie);
         }
 
         private static void ExcluirSerie()
