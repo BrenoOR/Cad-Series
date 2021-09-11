@@ -23,7 +23,7 @@ namespace DIO.Series
                         AtualizarSerie();
                         break;
                     case "4":
-                        //ExcluirSerie();
+                        ExcluirSerie();
                         break;
                     case "5":
                         //VisualizarSerie();
@@ -31,7 +31,6 @@ namespace DIO.Series
                     case "C":
                         Console.Clear();
                         break;
-
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -40,8 +39,37 @@ namespace DIO.Series
             }
         }
 
+        private static void ExcluirSerie()
+        {
+            Console.WriteLine("Excluir série:");
+            Console.Write("Digite o id da série: ");
+            int idSerie = int.Parse(Console.ReadLine());
+            Console.WriteLine("Você têm certeza disso? S/N");
+            
+            string response = Console.ReadLine();
+            switch(response)
+            {
+                case "S":
+                case "Sim":
+                case "Y":
+                case "Yes":
+                case "Yep":
+                    repo.Exclui(idSerie);
+                    break;
+                case "N":
+                case "Não":
+                case "No":
+                case "Nope":
+                    Console.WriteLine("Ufa!!! Tenha um bom dia!");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         private static void AtualizarSerie()
         {
+            Console.WriteLine("Atualizar série:");
             Console.Write("Digite o id da série: ");
             int idSerie = int.Parse(Console.ReadLine());
 
