@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace DIO.Series
 {
@@ -101,7 +101,11 @@ namespace DIO.Series
 
             foreach(var serie in lista)
             {
-                Console.WriteLine("#ID {0}: - {1}", serie.getID(), serie.getTitulo());
+                var excluido = serie.getExcluido();
+                if (!excluido)
+                {
+                    Console.WriteLine("#ID {0}: - {1}", serie.getID(), serie.getTitulo());
+                }
             }
         }
 
