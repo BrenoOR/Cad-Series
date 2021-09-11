@@ -8,34 +8,90 @@ namespace DIO.Series
         static void Main(string[] args)
         {
             string option = getOpcaoUsuario();
+            string programStatus = setProgStatus(option);
 
             while (option.ToUpper() != "X")
             {
-                switch(option)
+                switch(programStatus)
                 {
-                    case "1":
-                        ListarSeries();
+                    case "Filme":
+                        option = getOpcaoUsuarioFilmes();
+                        while ((option.ToUpper() != "X"))
+                        {
+                            switch(option)
+                            {
+                                case "1":
+                                    //ListarFilmes();
+                                    break;
+                                case "2":
+                                    //InserirFilme();
+                                    break;
+                                case "3":
+                                    //AtualizarFilme();
+                                    break;
+                                case "4":
+                                    //ExcluirFilme();
+                                    break;
+                                case "5":
+                                    //VisualizarFilme();
+                                    break;
+                                case "V":
+                                    programStatus = setProgStatus("");
+                                    break;
+                                case "C":
+                                    Console.Clear();
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+                            if (programStatus == "")
+                            {
+                                break;
+                            }
+                            option = getOpcaoUsuarioFilmes();
+                        }
                         break;
-                    case "2":
-                        InserirSerie();
+                    case "Serie":
+                        option = getOpcaoUsuarioSeries();
+                        while ((option.ToUpper() != "X"))
+                        {
+                            switch(option)
+                            {
+                                case "1":
+                                    ListarSeries();
+                                    break;
+                                case "2":
+                                    InserirSerie();
+                                    break;
+                                case "3":
+                                    AtualizarSerie();
+                                    break;
+                                case "4":
+                                    ExcluirSerie();
+                                    break;
+                                case "5":
+                                    VisualizarSerie();
+                                    break;
+                                case "V":
+                                    programStatus = setProgStatus("");
+                                    break;
+                                case "C":
+                                    Console.Clear();
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+                            if (programStatus == "")
+                            {
+                                break;
+                            }
+                            option = getOpcaoUsuarioSeries();
+                        }
                         break;
-                    case "3":
-                        AtualizarSerie();
-                        break;
-                    case "4":
-                        ExcluirSerie();
-                        break;
-                    case "5":
-                        VisualizarSerie();
-                        break;
-                    case "C":
-                        Console.Clear();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
                 }
 
                 option = getOpcaoUsuario();
+                programStatus = setProgStatus(option);
             }
         }
 
@@ -147,10 +203,64 @@ namespace DIO.Series
             return novaSerie;
         }
 
+        private static string setProgStatus(string opcao)
+        {
+            switch (opcao)
+            {
+                case "1":
+                    return "Serie";
+                case "2":
+                    return "Filme";
+                case "C":
+                    Console.Clear();
+                    return "";
+                default:
+                    return "";
+            }
+        }
+
         private static string getOpcaoUsuario()
         {
             Console.WriteLine();
-            Console.WriteLine("Bem vindo à DIO Séries!!!");
+            Console.WriteLine("Bem vindo à DIO Entertainment!!!");
+            Console.WriteLine("O que desejas?");
+
+            Console.WriteLine("1 - Séries");
+            Console.WriteLine("2 - Filmes");
+            
+            Console.WriteLine("C - Limpar a tela");
+            Console.WriteLine("X - Sair");
+
+            string opcao = Console.ReadLine().ToUpper();            
+            Console.WriteLine();
+            return opcao;
+        }
+
+        private static string getOpcaoUsuarioFilmes()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Você escolheu Filmes!");
+            Console.WriteLine("O que desejas?");
+
+            Console.WriteLine("1 - Listar Filmes");
+            Console.WriteLine("2 - Inserir novo Filme");
+            Console.WriteLine("3 - Atualizar Filme");
+            Console.WriteLine("4 - Excluir Filme");
+            Console.WriteLine("5 - Visualizar Filme");
+            
+            Console.WriteLine("C - Limpar a tela");
+            Console.WriteLine("V - Voltar");
+            Console.WriteLine("X - Sair");
+
+            string opcao = Console.ReadLine().ToUpper();            
+            Console.WriteLine();
+            return opcao;
+        }
+
+        private static string getOpcaoUsuarioSeries()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Você escolheu Séries!");
             Console.WriteLine("O que desejas?");
 
             Console.WriteLine("1 - Listar Séries");
@@ -158,7 +268,9 @@ namespace DIO.Series
             Console.WriteLine("3 - Atualizar Série");
             Console.WriteLine("4 - Excluir Série");
             Console.WriteLine("5 - Visualizar Série");
+
             Console.WriteLine("C - Limpar a tela");
+            Console.WriteLine("V - Voltar");
             Console.WriteLine("X - Sair");
 
             string opcao = Console.ReadLine().ToUpper();            
