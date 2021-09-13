@@ -4,7 +4,8 @@ namespace DIO.Series
 {
     class Program
     {
-        static SerieRepo repo = new SerieRepo();
+        static SerieRepo repoSeries = new SerieRepo();
+        static FilmeRepo repoFilmes = new FilmeRepo();
         static void Main(string[] args)
         {
             string option = getOpcaoUsuario();
@@ -21,19 +22,19 @@ namespace DIO.Series
                             switch(option)
                             {
                                 case "1":
-                                    //ListarFilmes();
+                                    ListarFilmes();
                                     break;
                                 case "2":
-                                    //InserirFilme();
+                                    InserirFilme();
                                     break;
                                 case "3":
-                                    //AtualizarFilme();
+                                    AtualizarFilme();
                                     break;
                                 case "4":
-                                    //ExcluirFilme();
+                                    ExcluirFilme();
                                     break;
                                 case "5":
-                                    //VisualizarFilme();
+                                    VisualizarFilme();
                                     break;
                                 case "V":
                                     programStatus = setProgStatus("");
@@ -95,13 +96,121 @@ namespace DIO.Series
             }
         }
 
+        private static void VisualizarFilme()
+        {
+            Console.WriteLine("Visualizar filme:");
+            Console.Write("Digite o id do filme: ");
+            int idFilme = int.Parse(Console.ReadLine());
+
+            var filme = repoFilmes.RetornaPorID(idFilme);
+
+            Console.WriteLine(filme);
+        }
+
+        private static void ExcluirFilme()
+        {
+            Console.WriteLine("Excluir filme:");
+            Console.Write("Digite o id do filme: ");
+            int idFilme = int.Parse(Console.ReadLine());
+            Console.WriteLine("Você têm certeza disso? S/N");
+            
+            string response = Console.ReadLine();
+            switch(response)
+            {
+                case "S":
+                case "Sim":
+                case "Y":
+                case "Yes":
+                case "Yep":
+                    repoFilmes.Exclui(idFilme);
+                    break;
+                case "N":
+                case "Não":
+                case "No":
+                case "Nope":
+                    Console.WriteLine("Ufa!!! Tenha um bom dia!");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static void AtualizarFilme()
+        {
+            Console.WriteLine("Atualizar filme:");
+            Console.Write("Digite o id do filme: ");
+            int idFilme = int.Parse(Console.ReadLine());
+
+            Filme filmeAtt = generateFilme(idFilme);
+            
+            repoFilmes.Atualiza(idFilme, filmeAtt);
+        }
+
+        private static void InserirFilme()
+        {
+            Console.WriteLine("Inserir novo filme:");
+
+            Filme novoFilme = generateFilme(repoFilmes.ProximoID());
+            
+            repoFilmes.Insere(novoFilme);
+        }
+
+        private static void ListarFilmes()
+        {
+            Console.WriteLine("Listar filmes:");
+
+            var lista = repoFilmes.Lista();
+
+            if (lista.Count == 0)
+            {
+                Console.WriteLine("Nenhum filme cadastrada.");
+                return;
+            }
+
+            foreach(var filme in lista)
+            {
+                var excluido = filme.getExcluido();
+                if (!excluido)
+                {
+                    Console.WriteLine("#ID {0}: - {1}", filme.getID(), filme.getTitulo());
+                }
+            }
+        }
+
+        private static Filme generateFilme(int idFilme)
+        {
+            foreach (int i in Enum.GetValues(typeof(Genero)))
+            {
+                Console.WriteLine("{0} - {1}", i, Enum.GetName(typeof(Genero), i));
+            }
+            Console.WriteLine("Escolha o gênero entre as opções acima: ");
+            int inputGenero = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Digite o título do filme: ");
+            string inputTitulo = Console.ReadLine();
+
+            Console.WriteLine("Digite o ano de lançamento do filme: ");
+            int inputAno = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Escreva a sinopse do filme: ");
+            string inputDescricao = Console.ReadLine();
+
+            Filme novoFilme = new Filme(id: idFilme,
+                                        genero: (Genero)inputGenero,
+                                        titulo: inputTitulo,
+                                        ano: inputAno,
+                                        descricao: inputDescricao);
+
+            return novoFilme;
+        }
+
         private static void VisualizarSerie()
         {
             Console.WriteLine("Visualizar série:");
             Console.Write("Digite o id da série: ");
             int idSerie = int.Parse(Console.ReadLine());
 
-            var serie = repo.RetornaPorID(idSerie);
+            var serie = repoSeries.RetornaPorID(idSerie);
 
             Console.WriteLine(serie);
         }
@@ -121,7 +230,7 @@ namespace DIO.Series
                 case "Y":
                 case "Yes":
                 case "Yep":
-                    repo.Exclui(idSerie);
+                    repoSeries.Exclui(idSerie);
                     break;
                 case "N":
                 case "Não":
@@ -142,23 +251,23 @@ namespace DIO.Series
 
             Serie serieAtt = generateSerie(idSerie);
             
-            repo.Atualiza(idSerie, serieAtt);
+            repoSeries.Atualiza(idSerie, serieAtt);
         }
 
         private static void InserirSerie()
         {
             Console.WriteLine("Inserir nova série:");
 
-            Serie novaSerie = generateSerie(repo.ProximoID());
+            Serie novaSerie = generateSerie(repoSeries.ProximoID());
             
-            repo.Insere(novaSerie);
+            repoSeries.Insere(novaSerie);
         }
 
         private static void ListarSeries()
         {
             Console.WriteLine("Listar séries:");
 
-            var lista = repo.Lista();
+            var lista = repoSeries.Lista();
 
             if (lista.Count == 0)
             {
@@ -191,6 +300,9 @@ namespace DIO.Series
             Console.WriteLine("Digite o ano de lançamento da série: ");
             int inputAno = int.Parse(Console.ReadLine());
 
+            Console.WriteLine("Digite a quantidade de temporadas da série: ");
+            int inputTemporadas = int.Parse(Console.ReadLine());
+
             Console.WriteLine("Escreva a sinopse da série: ");
             string inputDescricao = Console.ReadLine();
 
@@ -198,6 +310,7 @@ namespace DIO.Series
                                         genero: (Genero)inputGenero,
                                         titulo: inputTitulo,
                                         ano: inputAno,
+                                        temporadas: inputTemporadas,
                                         descricao: inputDescricao);
 
             return novaSerie;
