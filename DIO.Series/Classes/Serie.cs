@@ -12,15 +12,18 @@ namespace DIO.Series
 
         private int Ano { get; set; }
 
+        private int Temporadas { get; set; }
+
         private bool Excluido { get; set; }
 
-        public Serie(int id, Genero genero, string titulo, string descricao, int ano)
+        public Serie(int id, Genero genero, string titulo, string descricao, int ano, int temporadas)
         {
             this.id = id;
             this.Genero = genero;
             this.Titulo = titulo;
             this.Descricao = descricao;
             this.Ano = ano;
+            this.Temporadas = temporadas;
             this.Excluido = false;
         }
 
@@ -31,6 +34,7 @@ namespace DIO.Series
             result += "Título: " + this.Titulo + Environment.NewLine;
             result += "Descrição: " + this.Descricao + Environment.NewLine;
             result += "Ano de Início: " + this.Ano + Environment.NewLine;
+            result += "Número de Temporadas: " + this.Temporadas + Environment.NewLine;
             result += "Excluído: " + this.Excluido;
             return result;
         }
