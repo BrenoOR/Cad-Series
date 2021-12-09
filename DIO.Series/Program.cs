@@ -238,7 +238,7 @@ namespace DIO.Series
                 case "Não":
                 case "No":
                 case "Nope":
-                    Console.WriteLine("Ufa!!! Tenha um bom dia!");
+                    Console.WriteLine("Tudo certo!");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
