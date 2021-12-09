@@ -226,6 +226,7 @@ namespace DIO.Series
             switch(response)
             {
                 case "S":
+                case "s":
                 case "Sim":
                 case "Y":
                 case "Yes":
@@ -233,6 +234,7 @@ namespace DIO.Series
                     repoSeries.Exclui(idSerie);
                     break;
                 case "N":
+                case "n":
                 case "Não":
                 case "No":
                 case "Nope":
